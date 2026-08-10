@@ -1,6 +1,6 @@
 package com.pantaleontech.stacktraces
 
-import kotlin.coroutines.StackTraceRecoverable
+import kotlin.coroutines.debug.StackTraceRecoverable
 
 /**
  * Three shapes of the same domain failure. The only thing that changes between
