@@ -1,5 +1,6 @@
 package com.pantaleontech.stacktraces
 
+import kotlin.test.ExperimentalKotlinTestApi
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertFalse
@@ -8,7 +9,9 @@ import kotlin.test.assertTrue
 /**
  * Runs in a JVM with `-Dkotlinx.coroutines.debug=on` (see the `test` task).
  */
+@OptIn(ExperimentalKotlinTestApi::class)
 class RecoveryEnabledTest {
+
 
     @Test
     fun `plain exception is recovered`() {
@@ -16,10 +19,13 @@ class RecoveryEnabledTest {
 
         assertContains(
             trace,
-            COROUTINE_BOUNDARY_FRAME,
-            "expected the coroutine boundary frame in a recovered trace",
-        )
-        assertContains(trace, "Caused by", "the untouched original is attached as the cause")
+            COROUTINE_BOUNDARY_FRAME) {
+            "expected the coroutine boundary frame in a recovered trace"
+        }
+
+        assertContains(trace, "Caused by") {
+            "the untouched original is attached as the cause"
+        }
     }
 
     @Test
@@ -40,10 +46,12 @@ class RecoveryEnabledTest {
 
         assertContains(
             trace,
-            COROUTINE_BOUNDARY_FRAME,
-            "copyForStackTraceRecovery should let recovery run again",
-        )
-        assertContains(trace, "card declined", "the message must survive the copy")
+            COROUTINE_BOUNDARY_FRAME) {
+            "copyForStackTraceRecovery should let recovery run again"
+        }
+        assertContains(trace, "card declined") {
+            "the message must survive the copy"
+        }
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.pantaleontech.stacktraces
 
+import kotlin.test.ExperimentalKotlinTestApi
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertFalse
@@ -14,6 +15,7 @@ import kotlin.test.assertFalse
  */
 class RecoveryDisabledTest {
 
+    @OptIn(ExperimentalKotlinTestApi::class)
     @Test
     fun `nothing is recovered when debug mode is off`() {
         val trace = captureStackTrace { PlainPaymentFailed("card declined") }
@@ -22,6 +24,6 @@ class RecoveryDisabledTest {
             COROUTINE_BOUNDARY_FRAME in trace,
             "recovery is DEBUG && stacktrace.recovery — with debug off, it never runs",
         )
-        assertContains(trace, "card declined", "the exception itself is untouched")
+        assertContains(trace, "card declined") { "the exception itself is untouched"}
     }
 }
