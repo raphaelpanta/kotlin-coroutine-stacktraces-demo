@@ -63,9 +63,15 @@ is a deliberate opt-out.
 
 ## Caveats, stated plainly
 
-- `StackTraceRecoverable` is **experimental** and requires `@OptIn`. The build opts in globally.
+- The import is `kotlin.coroutines.debug.StackTraceRecoverable` — the `debug` subpackage. The
+  sample on Kotlin's What's New page shows `kotlin.coroutines.StackTraceRecoverable`, which does
+  not resolve.
+- `StackTraceRecoverable` is **experimental** and requires `@OptIn`. The build opts in globally via
+  `kotlin.coroutines.ExperimentalStdlibCoroutineSupportApi` — note the marker annotation is in
+  `kotlin.coroutines` even though the interface is in `kotlin.coroutines.debug`.
 - It needs a kotlinx.coroutines version that knows to look for `copyForStackTraceRecovery`. This
-  project pins `1.11.0`. If case C behaves like case B, that lookup is the first thing to check.
+  project pins `1.11.0`, which works. If case C behaves like case B, that lookup is the first thing
+  to check.
 - Recovery costs an exception copy and a `setStackTrace` per rethrow across a coroutine boundary.
   The kotlinx.coroutines docs call debug-mode overhead negligible; `DebugProbes` is a separate,
   larger decision — single-digit percent of throughput with creation stack traces disabled, which
